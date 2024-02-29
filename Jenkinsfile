@@ -13,8 +13,8 @@ pipeline {
         WORDPRESS_DB_NAME = 'wordpress'
         WORDPRESS_DB_USER = 'wpuser'
         WORDPRESS_DB_PASSWORD = 'wppassword'
-	DOCKER_USERNAME = 'stalindreamer@gmail.com'
-	DOCKER_PASSWORD = 'TNindia3210'
+//	DOCKER_USERNAME = 'stalindreamer@gmail.com'
+//	DOCKER_PASSWORD = 'TNindia3210'
 
     }
 
