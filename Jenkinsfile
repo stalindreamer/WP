@@ -13,9 +13,6 @@ pipeline {
         WORDPRESS_DB_NAME = 'wordpress'
         WORDPRESS_DB_USER = 'wpuser'
         WORDPRESS_DB_PASSWORD = 'wppassword'
-	DOCKER_USERNAME = 'stalindreamer@gmail.com'
-	DOCKER_PASSWORD = 'TNindia3210'
-
     }
 
     stages {
@@ -32,8 +29,10 @@ pipeline {
                 script {
                     // Build and push WordPress Docker image to registry
                     sh "docker build -t $DOCKER_IMAGE ."
-		
-                    sh 'docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"'
+		withCredentials([usernamePassword(credentialsId: 'docker-id', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+		sh 'docker login -u=$USERNAME -p=PASSWORD'
+		    }
+                    
 			sh 'echo "Docker image is going to push to docker.io"'
 			sh "docker push $DOCKER_IMAGE"                
                     sh 'echo "docker image is pushed"'
