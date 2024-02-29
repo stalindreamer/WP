@@ -12,8 +12,8 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                sh 'git config --global http.postBuffer 524288000 && '
-                git 'https://github.com/stalindreamer/WordPress.git'
+                sh 'pwd' //git config --global http.postBuffer 524288000 && '
+                //git 'https://github.com/stalindreamer/WordPress.git'
             }
         }
 
