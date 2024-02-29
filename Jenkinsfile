@@ -32,8 +32,10 @@ pipeline {
                 script {
                     // Build and push WordPress Docker image to registry
                     sh "docker build -t $DOCKER_IMAGE ."
-			sh 'docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"'
-                    sh "docker push $DOCKER_IMAGE"
+		withDockerRegistry(credentialsId: 'docker-id', url: 'tnindia3210/doc-wp:latest') {
+    			sh "docker push $DOCKER_IMAGE"
+}
+                    
                 }
             }
         }
