@@ -32,9 +32,18 @@ pipeline {
                 script {
                     // Build and push WordPress Docker image to registry
                     sh "docker build -t $DOCKER_IMAGE ."
-		withDockerRegistry(credentialsId: 'docker-id', url: 'tnindia3210/doc-wp:latest') {
-    			sh "docker push $DOCKER_IMAGE"
-}
+		script {
+                    // Assuming you've already built your Docker image
+                    def dockerImage = 'tnindia3210/doc-wp:latest'
+
+                    // 'docker-credentials' is the ID of your credentials in Jenkins
+                     {
+                        // 'your-registry-url' is your Docker registry URL
+                        docker.withRegistry('https://hub.docker.com/repository/docker/tnindia3210/doc-wp', 'docker-id') {
+                            docker.image(dockerImage).push()
+                        }
+                    }
+                }
                     
                 }
             }
