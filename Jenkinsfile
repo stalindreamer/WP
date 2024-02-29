@@ -3,47 +3,45 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'tnindia3210/doc-wp:latest'
-        DOCKER_TAG = 'latest'
-        REMOTE_SERVER = '192.168.150.137'
-        REMOTE_USER = 'ubuntu'
-        REMOTE_KEY = credentials('ubuntu')
+        CONTAINER_NAME = 'wordpress'
+        DB_CONTAINER_NAME = 'mydql-db'
+//        DB_ROOT_PASSWORD = 'my-secret-password'
+//        DB_NAME = 'wordpressdb'
+//        DB_USER = 'wordpressuser'
+//        DB_PASSWORD = 'wordpresspassword'
+        WORDPRESS_DB_HOST = 'db:3306'
+        WORDPRESS_DB_NAME = 'wordpress'
+        WORDPRESS_DB_USER = 'wpuser'
+        WORDPRESS_DB_PASSWORD = 'wppassword'
+
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                sh 'pwd' //git config --global http.postBuffer 524288000 && '
-                //git 'https://github.com/stalindreamer/WordPress.git'
+                // Checkout the code from the Git repository
+		sh 'git clone https://github.com/stalindreamer/WordPress.git'
+                git url: 'https://github.com/stalindreamer/WordPress.git'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build and Push') {
             steps {
                 script {
-                    docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
+                    // Build and push WordPress Docker image to registry
+                    sh "docker build -t $DOCKER_IMAGE ."
+                    sh "docker push $DOCKER_IMAGE"
                 }
             }
         }
 
-        stage('Push Image to Registry') {
+        stage('Deploy') {
             steps {
                 script {
-                    docker.withRegistry('https://your-registry-url', 'docker-id') {
-                        docker.image("${DOCKER_IMAGE}:${DOCKER_TAG}").push()
-                    }
-                }
-            }
-        }
-
-        stage('Deploy to Remote Server') {
-            steps {
-                script {
-                    sshagent([REMOTE_KEY]) {
-                        sh "ssh ${REMOTE_USER}@${REMOTE_SERVER} 'docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}'"
-                        sh "ssh ${REMOTE_USER}@${REMOTE_SERVER} 'docker stop ${DOCKER_IMAGE} || true'"
-                        sh "ssh ${REMOTE_USER}@${REMOTE_SERVER} 'docker rm ${DOCKER_IMAGE} || true'"
-                        sh "ssh ${REMOTE_USER}@${REMOTE_SERVER} 'docker run -d --name ${DOCKER_IMAGE} ${DOCKER_IMAGE}:${DOCKER_TAG}'"
-                    }
+                    // Deploy the built Docker image to the remote server
+                    sh "ssh ubuntu@192.168.150.136 'docker pull $DOCKER_IMAGE'"
+                    sh "ssh ubuntu@192.168.150.136 'docker run -d --name $DB_CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=$WORDPRESS_DB_PASSWORD -e MYSQL_DATABASE=$WORDPRESS_DB_NAME -e MYSQL_USER=$WORDPRESS_DB_USER -e MYSQL_PASSWORD=$WORDPRESS_DB_PASSWORD mysql:latest'"
+                    sh "ssh ubuntu@192.168.150.136 'docker run -d --name $CONTAINER_NAME --link $DB_CONTAINER_NAME:mysql -p 8080:80 $DOCKER_IMAGE'"
                 }
             }
         }
