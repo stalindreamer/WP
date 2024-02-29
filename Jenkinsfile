@@ -20,8 +20,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from the Git repository
-		sh 'git clone https://github.com/stalindreamer/WordPress.git'
-                git url: 'https://github.com/stalindreamer/WordPress.git'
+		sh 'pwd' //git clone https://github.com/stalindreamer/WordPress.git'
+               // git url: 'https://github.com/stalindreamer/WordPress.git'
             }
         }
 
