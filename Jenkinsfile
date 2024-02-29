@@ -32,7 +32,7 @@ pipeline {
                 script {
                     // Build and push WordPress Docker image to registry
                     sh "docker build -t $DOCKER_IMAGE ."
-		script {
+		
                     // Assuming you've already built your Docker image
                     def dockerImage = 'tnindia3210/doc-wp:latest'
 
@@ -43,7 +43,7 @@ pipeline {
                             docker.image(dockerImage).push()
                         }
                     }
-                }
+                
                     
                 }
             }
