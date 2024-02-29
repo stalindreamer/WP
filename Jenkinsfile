@@ -49,9 +49,7 @@ pipeline {
 			withCredentials([usernamePassword(credentialsId: 'ubuntu', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
                         echo Logging into the Linux server...
-                    //    sshpass -p $PASSWORD ssh $USERNAME@your-linux-server 'commands to execute'
-                   
-			
+        	
                     sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker pull $DOCKER_IMAGE'"
                     sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker run -d --name $DB_CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=$WORDPRESS_DB_PASSWORD -e MYSQL_DATABASE=$WORDPRESS_DB_NAME -e MYSQL_USER=$WORDPRESS_DB_USER -e MYSQL_PASSWORD=$WORDPRESS_DB_PASSWORD mysql:latest'"
                     sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker run -d --name $CONTAINER_NAME --link $DB_CONTAINER_NAME:mysql -p 8080:80 $DOCKER_IMAGE'"
