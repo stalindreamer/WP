@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     environment {
         DOCKER_IMAGE = 'tnindia3210/doc-wp:latest'
         CONTAINER_NAME = 'wordpress'
