@@ -35,7 +35,8 @@ pipeline {
 		
                     sh 'docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"'
 			sh 'Docker image is going to push to docker.io'
-                    sh "docker push $DOCKER_IMAGE"                
+			sh 'docker push tnindia3210/doc-wp:latest'
+                    //sh "docker push $DOCKER_IMAGE"                
                     sh 'echo docker image is pushed'
                 }
             }
