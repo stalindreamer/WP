@@ -29,7 +29,7 @@ pipeline {
                     // Build and push WordPress Docker image to registry
                     sh "docker build -t $DOCKER_IMAGE ."
 		withCredentials([usernamePassword(credentialsId: 'docker-id', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-		sh 'docker login -u=$USERNAME -p=PASSWORD'
+		sh 'docker login -u=$USERNAME -p=$PASSWORD'
 		    }
                     
 			sh 'echo "Docker image is going to push to docker.io"'
