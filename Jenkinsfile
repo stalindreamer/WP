@@ -39,7 +39,7 @@ pipeline {
                     // 'docker-credentials' is the ID of your credentials in Jenkins
                      {
                         // 'your-registry-url' is your Docker registry URL
-                        docker.withRegistry('https://hub.docker.com/repository/docker/tnindia3210/doc-wp', 'docker-id') {
+                        docker.withRegistry('https://docker.io/tnindia3210/doc-wp', 'docker-id') {
                             docker.image(dockerImage).push()
                         }
                     }
