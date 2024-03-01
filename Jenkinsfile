@@ -50,9 +50,9 @@ pipeline {
                         echo Logging into the Linux server...
 		  
         		
-	  		'echo "can able to login in remote server before docker login"'
-		'sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 "docker login -u=stalindreamer@gmail.com -p=TNindia3210"'
-  		'echo "Logged in docker.io"'
+	  		echo "can able to login in remote server before docker login"
+		sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 "docker login -u=stalindreamer@gmail.com -p=TNindia3210"
+  		echo "Logged in docker.io"
     			
                     "sshpass -p '$PASSWORD' ssh $USERNAME@192.168.150.136 'docker pull $DOCKER_IMAGE'"
 		    'echo "docker image is pulled from docker.io"'
