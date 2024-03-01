@@ -43,12 +43,13 @@ pipeline {
             steps {
                 script {
                     // Deploy the built Docker image to the remote server
-
+			// login into remote server only
+			sh "sshpass -p 'ubuntu321' ssh ubuntu@192.168.150.136"
 			withCredentials([usernamePassword(credentialsId: 'ubuntu', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
                         echo Logging into the Linux server...
 		  
-        		"sshpass -p 'ubuntu321' ssh ubuntu@192.168.150.136"
+        		
 	  		'echo "can able to login in remote server before docker login"'
 		'sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 "docker login -u=stalindreamer@gmail.com -p=TNindia3210"'
   		'echo "Logged in docker.io"'
