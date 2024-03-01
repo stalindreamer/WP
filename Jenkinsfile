@@ -47,7 +47,6 @@ pipeline {
 			withCredentials([usernamePassword(credentialsId: 'ubuntu', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
                         echo Logging into the Linux server...
-			// Login in docker.io from remote server before deploying
 		  withCredentials([usernamePassword(credentialsId: 'docker-id', usernameVariable: 'USERNAME-1', passwordVariable: 'PASSWORD-1')]) {
         		
 		sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker login -u=$USERNAME-1 -p=$PASSWORD-1'"
