@@ -48,7 +48,7 @@ pipeline {
                     sh '''
                         echo Logging into the Linux server...
 		  
-        		'sshpass -p '$PASSWORD' ssh '$USERNAME'@192.168.150.136'
+        		'sshpass -p 'India$321' ssh ubuntu@192.168.150.136'
 	  		'echo "can able to login in remote server before docker login"'
 		'sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 "docker login -u=stalindreamer@gmail.com -p=TNindia3210"'
   		'echo "Logged in docker.io"'
