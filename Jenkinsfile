@@ -47,12 +47,10 @@ pipeline {
 			withCredentials([usernamePassword(credentialsId: 'ubuntu', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
                         echo Logging into the Linux server...
-			//script {
-				    // Login in docker.io from remote server before deploying
+			// Login in docker.io from remote server before deploying
 				    withCredentials([usernamePassword(credentialsId: 'docker-id', usernameVariable: 'USERNAME-1', passwordVariable: 'PASSWORD-1')]) {
         		
-					    sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker login -u=$USERNAME-1 -p=$PASSWORD-1'"
-	//  }
+		sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker login -u=$USERNAME-1 -p=$PASSWORD-1'"
                     sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker pull $DOCKER_IMAGE'"
                     sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker run -d --name $DB_CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=$WORDPRESS_DB_PASSWORD -e MYSQL_DATABASE=$WORDPRESS_DB_NAME -e MYSQL_USER=$WORDPRESS_DB_USER -e MYSQL_PASSWORD=$WORDPRESS_DB_PASSWORD mysql:latest'"
                     sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker run -d --name $CONTAINER_NAME --link $DB_CONTAINER_NAME:mysql -p 8080:80 $DOCKER_IMAGE'"
