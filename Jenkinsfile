@@ -51,7 +51,7 @@ pipeline {
         		
 		sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker login -u=stalindreamer@gmail.com -p=TNindia3210'"
   		sh 'echo "Logged in docker.io"'
-    
+    			sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'echo "can able to login and run echo"'
                     sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker pull $DOCKER_IMAGE'"
 		    sh 'echo "docker image is pulled from docker.io"'
                     sh "sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker run -d --name $DB_CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=$WORDPRESS_DB_PASSWORD -e MYSQL_DATABASE=$WORDPRESS_DB_NAME -e MYSQL_USER=$WORDPRESS_DB_USER -e MYSQL_PASSWORD=$WORDPRESS_DB_PASSWORD mysql:latest'"
