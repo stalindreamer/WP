@@ -56,9 +56,8 @@ pipeline {
     			
                     sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker pull tnindia3210/doc-wp:latest'
 		    echo "docker image is pulled from docker.io"
-      			sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker run -d --name $CONTAINER_NAME --link $DB_CONTAINER_NAME:mysql -p 8080:80 $DOCKER_IMAGE'
-                    sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker run -d --name $DB_CONTAINER_NAME -e "MYSQL_ROOT_PASSWORD=$WORDPRESS_DB_PASSWORD" -e "MYSQL_DATABASE=$WORDPRESS_DB_NAME" -e "MYSQL_USER=$WORDPRESS_DB_USER" -e "MYSQL_PASSWORD=$WORDPRESS_DB_PASSWORD" mysql:latest'
-                    
+      		sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker run -p 8080:80 --name $CONTAINER_NAME --link $DB_CONTAINER_NAME:mysql -d $DOCKER_IMAGE'
+		sshpass -p $PASSWORD ssh $USERNAME@192.168.150.136 'docker run --name $DB_CONTAINER_NAME -e "MYSQL_ROOT_PASSWORD=$WORDPRESS_DB_PASSWORD" -e "MYSQL_DATABASE=$WORDPRESS_DB_NAME" -e "MYSQL_USER=$WORDPRESS_DB_USER" -e "MYSQL_PASSWORD=$WORDPRESS_DB_PASSWORD" -d mysql:latest'
 		    echo "docker containers are deployed in remore server"
 			  '''
                 }
