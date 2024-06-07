@@ -1,26 +1,24 @@
 pipeline {
     agent any
 
-    environment {
-        SONAR_SCANNER_HOME = tool 'sonar-qubes'
-    }
-
-
-    
+       
     stages {
 
         
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonar-qubes') {
-                    bat "${SONAR_SCANNER_HOME}/bin/sonar-scanner"
-                }
+                script {
+            scannerHome = tool 'sonar-qubes'// must match the name of an actual scanner installation directory on your Jenkins build agent
+        }
             }
         }
 
         stage('Quality Gate') {
             steps {
                 script {
+			withSonarQubeEnv('sonar-qubes') {// If you have configured more than one global server connection, you can specify its name as configured in Jenkins
+          sh "${scannerHome}/bin/sonar-scanner"
+}
                 timeout(time: 1, unit: 'MINUTES') {
                     def qg = waitForQualityGate()
                     if (qg.status != 'OK') {
