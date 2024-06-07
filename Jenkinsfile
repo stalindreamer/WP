@@ -9,11 +9,7 @@ pipeline {
     
     stages {
         stages {
-        stage('Checkout') {
-            steps {
-               sh 'git https://github.com/stalindreamer/WP.git'
-            }
-        }
+        
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonar-qube') {
