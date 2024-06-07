@@ -19,7 +19,7 @@ pipeline {
 			withSonarQubeEnv('sonar-qube') {// If you have configured more than one global server connection, you can specify its name as configured in Jenkins
           sh "${scannerHome}/bin/sonar-scanner"
 }
-                timeout(time: 1, unit: 'MINUTES') {
+                timeout(time: 100, unit: 'MINUTES') {
                     def qg = waitForQualityGate()
                     if (qg.status != 'OK') {
                         error "Pipeline aborted due to quality gate failure: ${qg.status}"
