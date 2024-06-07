@@ -22,6 +22,9 @@ pipeline {
             steps {
                 script {
                 timeout(time: 1, unit: 'MINUTES') {
+                    sh" ${SCANNER_HOME**}**}/bin/sonar-scanner \
+                      -Dsonar.projectKey=sonar-qube \
+                  -Dsonar.sources=. "
                     def qg = waitForQualityGate()
                     if (qg.status != 'OK') {
                         error "Pipeline aborted due to quality gate failure: ${qg.status}"
