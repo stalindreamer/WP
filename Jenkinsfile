@@ -16,7 +16,7 @@ pipeline {
         stage('Quality Gate') {
             steps {
                 script {
-			withSonarQubeEnv('sonar-qubes') {// If you have configured more than one global server connection, you can specify its name as configured in Jenkins
+			withSonarQubeEnv('sonar-qube') {// If you have configured more than one global server connection, you can specify its name as configured in Jenkins
           sh "${scannerHome}/bin/sonar-scanner"
 }
                 timeout(time: 1, unit: 'MINUTES') {
